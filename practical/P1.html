@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Thom Volker &amp; Erik-Jan van Kesteren">
+
+<title>Practical 1: Creating synthetic data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="P1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="P1_files/libs/quarto-html/quarto.js"></script>
+<script src="P1_files/libs/quarto-html/popper.min.js"></script>
+<script src="P1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="P1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="P1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="P1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="P1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="P1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="P1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="P1_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="P1_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#heart-failure-clinical-records" id="toc-heart-failure-clinical-records" class="nav-link" data-scroll-target="#heart-failure-clinical-records"><em>Heart failure clinical records</em></a></li>
+  <li><a href="#loading-your-own-data" id="toc-loading-your-own-data" class="nav-link" data-scroll-target="#loading-your-own-data">Loading your own data</a></li>
+  </ul></li>
+  <li><a href="#loading-required-packages" id="toc-loading-required-packages" class="nav-link" data-scroll-target="#loading-required-packages">Loading required packages</a></li>
+  <li><a href="#getting-to-know-the-data" id="toc-getting-to-know-the-data" class="nav-link" data-scroll-target="#getting-to-know-the-data">Getting to know the data</a></li>
+  <li><a href="#creating-synthetic-data" id="toc-creating-synthetic-data" class="nav-link" data-scroll-target="#creating-synthetic-data">Creating synthetic data</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Practical 1: Creating synthetic data</h1>
+<p class="subtitle lead">Fake it ’till you make it: Generating synthetic data with high utility in <code>R</code></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Thom Volker &amp; Erik-Jan van Kesteren </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<hr>
+<p>In this workshop, you will learn how to create and evaluate synthetic data in <code>R</code>. In the practical, we will work with the <code>R</code> package <code>mice</code> <span class="citation" data-cites="mice">(<a href="#ref-mice" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>. <code>mice</code> was originally developed to impute missing data, but, as you will experience, can also be used to impute synthetic data <span class="citation" data-cites="volker_vink_synthetic_mice_2021">(see <a href="#ref-volker_vink_synthetic_mice_2021" role="doc-biblioref">Volker and Vink 2021</a>)</span>. Other alternatives to create synthetic data are, for example, the R-package <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>, or the stand-alone software <code>IVEware</code> <span class="citation" data-cites="iveware">(<a href="#ref-iveware" role="doc-biblioref"><span>“<span>IVE</span>ware: Imputation and Variance Estimation Software,”</span> n.d.</a>)</span>.</p>
+<p>If you have <code>R</code> and <code>R Studio</code> installed on your device, you can follow all the steps from this practical using your local version of R Studio. In case you do not have an installation of <code>R</code> and <code>R Studio</code>, you can quickly create an account on <a href="https://login.rstudio.cloud/register">R Studio Cloud</a>, and work with a project that is set-up for this workshop (the link will follow). Note that you have the opportunity to work with your own data (you can also use data provided by us). If you are going to work via <code>R Studio Cloud</code>, you may not want to upload your own data to this server. In this case, you can still decide to work with the data provided by us. You could also install <code>R</code> and <code>R Studio</code> on the spot, but since we do not have infinite time, we advise to use <code>R Studio Cloud</code> if you have no access to <code>R</code> and <code>R Studio</code> on your device already.</p>
+<hr>
+</section>
+<section id="data" class="level1">
+<h1>Data</h1>
+<hr>
+<p>For this workshop, we have prepared all exercises with the <em>Heart failure clinical records</em> data set. However, you may also choose to work with a data set of your own liking. All steps exercises and solutions that we outline here should be applicable to another data set as well, but some data processing might be required before our example code works as it should. In the worst case, you might run into errors that we could not foresee, but we are more than happy to think along and help you to solve these issues.</p>
+<hr>
+<section id="heart-failure-clinical-records" class="level2">
+<h2 class="anchored" data-anchor-id="heart-failure-clinical-records"><em>Heart failure clinical records</em></h2>
+<p>The <em>Heart failure clinical records</em> data set is a medical data set from the UCI Machine Learning Repository (<a href="archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records">click here for the source</a>), originally collected by <span class="citation" data-cites="tanvir_heart_failure_2017">Ahmad (<a href="#ref-tanvir_heart_failure_2017" role="doc-biblioref">2017</a>)</span> from the Government College University, Faisalabad, Pakistan, and adapted and uploaded to the UCI MLR by <span class="citation" data-cites="chicco_ml_2020">Chicco and Jurman (<a href="#ref-chicco_ml_2020" role="doc-biblioref">2020</a>)</span>. This data set contains medical information of <span class="math inline">\(299\)</span> individuals on <span class="math inline">\(13\)</span> variables, and is typically used to predict whether or not a patient will survive during the follow-up period, using several biomedical predictors.</p>
+<p>If you decide to work with the <em>Heart failure clinical records</em> data and work in <code>R Studio Cloud</code>, you can access the environment related to this workshop <a href="https://posit.cloud/content/5365182">here</a>, including the scripts <code>P1.R</code> and <code>P2.R</code> that gets you started on importing the data, and installing and loading the required packages. You can continue working in this script. Make sure to save the project on your account, so that your changes are not deleted if you, for some reason, have to refresh the browser.</p>
+<p>If you have <code>R Studio</code> installed on your own machine, you can download the <em>cleaned</em> version of the <em>Heart failure clinical records</em> data set from my GitHub and load it as <code>heart_failure</code>, by running the following line of code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>heart_failure <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(<span class="st">"https://thomvolker.github.io/OSWS_Synthetic/data/heart_failure.RDS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <em>Heart failure clinical records</em> data consists of the following variables:</p>
+<ul>
+<li><code>age</code>: Age in years</li>
+<li><code>anaemia</code>: Whether the patient has a decrease of red blood cells (No/Yes)</li>
+<li><code>hypertension</code>: Whether the patient has high blood pressure (No/Yes)</li>
+<li><code>creatinine_phosphokinase</code>: Level of the creatinine phosphokinase enzyme in the blood (mcg/L)</li>
+<li><code>diabetes</code>: Whether the patient has diabetes (No/Yes)</li>
+<li><code>ejection_fraction</code>: Percentage of blood leaving the heart at each contraction</li>
+<li><code>platelets</code>: Platelets in de blood (kiloplatelets/mL)</li>
+<li><code>sex</code>: Sex (Female/Male)</li>
+<li><code>serum_creatinine</code>: Level of serum creatinine in the blood (mg/dL)</li>
+<li><code>serum_sodium</code>: Level of serum sodium in the blood (mg/dL)</li>
+<li><code>smoking</code>: Whether the patient smokes (No/Yes)</li>
+<li><code>follow_up</code>: Follow-up period (days)</li>
+<li><code>deceased</code>: Whether the patient deceased during the follow-up period</li>
+</ul>
+<hr>
+</section>
+<section id="loading-your-own-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-your-own-data">Loading your own data</h2>
+<p>In case you brought your own data, you can load it into <code>R</code> using a function that matches your data format. Below, you can find several functions that might be helpful if you want to load the your data into <code>R</code>. You can use these functions both locally, or on <code>R Studio Cloud</code>, but make sure to install the required package first.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Programme </th>
+   <th style="text-align:left;"> Format </th>
+   <th style="text-align:left;"> Command </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Excel </td>
+   <td style="text-align:left;"> .xlsx </td>
+   <td style="text-align:left;"> readxl::read_xlsx("path_to_file/data_name.xlsx") </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Excel </td>
+   <td style="text-align:left;"> .csv </td>
+   <td style="text-align:left;"> readr::read_csv("path_to_file/data_name.csv") </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> SPSS </td>
+   <td style="text-align:left;"> .sav </td>
+   <td style="text-align:left;"> haven::read_sav("path_to_file/data_name.sav") </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stata </td>
+   <td style="text-align:left;"> .dta </td>
+   <td style="text-align:left;"> haven::read_dta("path_to_file/data_name.dta") </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>After loading in your own data, make sure that the variables in your data are coded accordingly (this can go wrong when transferring between data types). That is, make sure that your categorical variables are coded as factors and your numeric variables as numeric variables. To do so, you can make use of the following code. Note, however, that this is not a workshop on data wrangling: if importing your data into <code>R</code> creates a mess, it might be better to use the <em>Heart failure clinical records data</em>, so that you can spend your valuable time on creating synthetic data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_name<span class="sc">$</span>variable  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(data_name<span class="sc">$</span>variable)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_name<span class="sc">$</span>variable2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_name<span class="sc">$</span>variable, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">levels =</span> values,       <span class="co"># values of the data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">labels =</span> value_labels) <span class="co"># labels of these values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If your data has the correct format, we can proceed to the next steps. Given that you are using your own data, we assume that you have (at least some) knowledge about the variables in your data. We will therefore skip the steps to obtain some descriptive information of the variables in your data, and continue to creating and evaluating synthetic data.</p>
+<p>In the sequel, we will outline how to create and evaluate synthetic data using the <em>Heart failure clinical records</em> data, but most of these steps should be directly applicable to your own data. In case something gives an error, do not hesitate to ask how the problem can be solved!</p>
+<hr>
+</section>
+</section>
+<section id="loading-required-packages" class="level1">
+<h1>Loading required packages</h1>
+<hr>
+<p>In this workshop, you will (at least) use the packages <code>mice</code> <span class="citation" data-cites="mice">(<a href="#ref-mice" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>, <code>ggmice</code> <span class="citation" data-cites="ggmice">(<a href="#ref-ggmice" role="doc-biblioref">Oberman 2022</a>)</span>, <code>ggplot2</code> <span class="citation" data-cites="ggplot2">(<a href="#ref-ggplot2" role="doc-biblioref">Wickham 2016</a>)</span>, <code>patchwork</code> <span class="citation" data-cites="patchwork">(<a href="#ref-patchwork" role="doc-biblioref">Pedersen 2022</a>)</span>, <code>psych</code> <span class="citation" data-cites="psych">(<a href="#ref-psych" role="doc-biblioref">Revelle 2022</a>)</span>, <code>purrr</code> <span class="citation" data-cites="purrr">(<a href="#ref-purrr" role="doc-biblioref">Henry and Wickham 2022</a>)</span> and <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>. Make sure to load them (in case you haven’t installed them already, install them first, using <code>install.packages("package.name")</code>).</p>
+<hr>
+<p><strong>1. Install the <code>R</code>-packages <code>mice</code> and <code>ggmice</code> from GitHub, and <code>ggplot2</code>, <code>patchwork</code>, <code>psych</code>, <code>purrr</code> and <code>synthpop</code> from <code>CRAN</code>, and load these packages using <code>library()</code>.</strong></p>
+<hr>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"amices/mice"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"amices/ggmice"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"psych"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"purrr"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"synthpop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)      <span class="co"># to create the synthetic data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmice)    <span class="co"># to make visualizations of the synthetic data</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)   <span class="co"># required when using ggmice</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># to stitch multiple figures together</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)     <span class="co"># to obtain descriptive statistics</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)     <span class="co"># to work with multiply imputed synthetic datasets</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(synthpop)  <span class="co"># to assess the utility of our synthetic data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="getting-to-know-the-data" class="level1">
+<h1>Getting to know the data</h1>
+<hr>
+<p>Before starting to work with <strong><em>any</em></strong> data, you must <strong><em>always</em></strong> get a basic understanding of what the data looks like. If you know what types your variables are and what the relationships between variables are supposed to be, it’s (somewhat) easier to spot any errors you make in coding.</p>
+<hr>
+<p><strong>2. Inspect the first few rows of the data using <code>head()</code>.</strong></p>
+<hr>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Output
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> age </th>
+   <th style="text-align:left;"> anaemia </th>
+   <th style="text-align:right;"> creatinine_phosphokinase </th>
+   <th style="text-align:left;"> diabetes </th>
+   <th style="text-align:right;"> ejection_fraction </th>
+   <th style="text-align:right;"> platelets </th>
+   <th style="text-align:right;"> serum_creatinine </th>
+   <th style="text-align:right;"> serum_sodium </th>
+   <th style="text-align:left;"> sex </th>
+   <th style="text-align:left;"> smoking </th>
+   <th style="text-align:left;"> hypertension </th>
+   <th style="text-align:left;"> deceased </th>
+   <th style="text-align:right;"> follow_up </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 582 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 265000 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 130 </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 55 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 7861 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 263358 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 136 </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 146 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 162000 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 129 </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 111 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 210000 </td>
+   <td style="text-align:right;"> 1.9 </td>
+   <td style="text-align:right;"> 137 </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 160 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 327000 </td>
+   <td style="text-align:right;"> 2.7 </td>
+   <td style="text-align:right;"> 116 </td>
+   <td style="text-align:left;"> Female </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 90 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> 40 </td>
+   <td style="text-align:right;"> 204000 </td>
+   <td style="text-align:right;"> 2.1 </td>
+   <td style="text-align:right;"> 132 </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>3. Use the <code>summary()</code> or <code>describe()</code> function to get a higher-level overview of the data.</strong></p>
+<hr>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Code <code>summary()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Output <code>summary()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>      age        anaemia   creatinine_phosphokinase diabetes  ejection_fraction
+ Min.   :40.00   No :170   Min.   :  23.0           No :174   Min.   :14.00    
+ 1st Qu.:51.00   Yes:129   1st Qu.: 116.5           Yes:125   1st Qu.:30.00    
+ Median :60.00             Median : 250.0                     Median :38.00    
+ Mean   :60.83             Mean   : 581.8                     Mean   :38.08    
+ 3rd Qu.:70.00             3rd Qu.: 582.0                     3rd Qu.:45.00    
+ Max.   :95.00             Max.   :7861.0                     Max.   :80.00    
+   platelets      serum_creatinine  serum_sodium       sex      smoking  
+ Min.   : 25100   Min.   :0.500    Min.   :113.0   Female:105   No :203  
+ 1st Qu.:212500   1st Qu.:0.900    1st Qu.:134.0   Male  :194   Yes: 96  
+ Median :262000   Median :1.100    Median :137.0                         
+ Mean   :263358   Mean   :1.394    Mean   :136.6                         
+ 3rd Qu.:303500   3rd Qu.:1.400    3rd Qu.:140.0                         
+ Max.   :850000   Max.   :9.400    Max.   :148.0                         
+ hypertension deceased    follow_up    
+ No :194      No :203   Min.   :  4.0  
+ Yes:105      Yes: 96   1st Qu.: 73.0  
+                        Median :115.0  
+                        Mean   :130.3  
+                        3rd Qu.:203.0  
+                        Max.   :285.0  </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Code <code>describe()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(heart_failure)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show Output <code>describe()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> vars </th>
+   <th style="text-align:right;"> n </th>
+   <th style="text-align:right;"> mean </th>
+   <th style="text-align:right;"> sd </th>
+   <th style="text-align:right;"> median </th>
+   <th style="text-align:right;"> trimmed </th>
+   <th style="text-align:right;"> mad </th>
+   <th style="text-align:right;"> min </th>
+   <th style="text-align:right;"> max </th>
+   <th style="text-align:right;"> range </th>
+   <th style="text-align:right;"> skew </th>
+   <th style="text-align:right;"> kurtosis </th>
+   <th style="text-align:right;"> se </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 6.083389e+01 </td>
+   <td style="text-align:right;"> 1.189481e+01 </td>
+   <td style="text-align:right;"> 60.0 </td>
+   <td style="text-align:right;"> 6.021715e+01 </td>
+   <td style="text-align:right;"> 14.82600 </td>
+   <td style="text-align:right;"> 40.0 </td>
+   <td style="text-align:right;"> 95.0 </td>
+   <td style="text-align:right;"> 55.0 </td>
+   <td style="text-align:right;"> 0.4188266 </td>
+   <td style="text-align:right;"> -0.2204793 </td>
+   <td style="text-align:right;"> 0.6878946 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> anaemia* </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.431438e+00 </td>
+   <td style="text-align:right;"> 4.961073e-01 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.414938e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.2754750 </td>
+   <td style="text-align:right;"> -1.9305367 </td>
+   <td style="text-align:right;"> 0.0286906 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> creatinine_phosphokinase </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 5.818395e+02 </td>
+   <td style="text-align:right;"> 9.702879e+02 </td>
+   <td style="text-align:right;"> 250.0 </td>
+   <td style="text-align:right;"> 3.654938e+02 </td>
+   <td style="text-align:right;"> 269.83320 </td>
+   <td style="text-align:right;"> 23.0 </td>
+   <td style="text-align:right;"> 7861.0 </td>
+   <td style="text-align:right;"> 7838.0 </td>
+   <td style="text-align:right;"> 4.4184296 </td>
+   <td style="text-align:right;"> 24.5254138 </td>
+   <td style="text-align:right;"> 56.1131970 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes* </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.418060e+00 </td>
+   <td style="text-align:right;"> 4.940671e-01 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.398340e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.3305857 </td>
+   <td style="text-align:right;"> -1.8970241 </td>
+   <td style="text-align:right;"> 0.0285726 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ejection_fraction </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 3.808361e+01 </td>
+   <td style="text-align:right;"> 1.183484e+01 </td>
+   <td style="text-align:right;"> 38.0 </td>
+   <td style="text-align:right;"> 3.742739e+01 </td>
+   <td style="text-align:right;"> 11.86080 </td>
+   <td style="text-align:right;"> 14.0 </td>
+   <td style="text-align:right;"> 80.0 </td>
+   <td style="text-align:right;"> 66.0 </td>
+   <td style="text-align:right;"> 0.5498228 </td>
+   <td style="text-align:right;"> 0.0005484 </td>
+   <td style="text-align:right;"> 0.6844265 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> platelets </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 2.633580e+05 </td>
+   <td style="text-align:right;"> 9.780424e+04 </td>
+   <td style="text-align:right;"> 262000.0 </td>
+   <td style="text-align:right;"> 2.567301e+05 </td>
+   <td style="text-align:right;"> 65234.40000 </td>
+   <td style="text-align:right;"> 25100.0 </td>
+   <td style="text-align:right;"> 850000.0 </td>
+   <td style="text-align:right;"> 824900.0 </td>
+   <td style="text-align:right;"> 1.4476814 </td>
+   <td style="text-align:right;"> 6.0252322 </td>
+   <td style="text-align:right;"> 5656.1650591 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> serum_creatinine </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.393880e+00 </td>
+   <td style="text-align:right;"> 1.034510e+00 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 1.189295e+00 </td>
+   <td style="text-align:right;"> 0.29652 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 9.4 </td>
+   <td style="text-align:right;"> 8.9 </td>
+   <td style="text-align:right;"> 4.4113866 </td>
+   <td style="text-align:right;"> 25.1888415 </td>
+   <td style="text-align:right;"> 0.0598273 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> serum_sodium </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.366254e+02 </td>
+   <td style="text-align:right;"> 4.412477e+00 </td>
+   <td style="text-align:right;"> 137.0 </td>
+   <td style="text-align:right;"> 1.368216e+02 </td>
+   <td style="text-align:right;"> 4.44780 </td>
+   <td style="text-align:right;"> 113.0 </td>
+   <td style="text-align:right;"> 148.0 </td>
+   <td style="text-align:right;"> 35.0 </td>
+   <td style="text-align:right;"> -1.0376430 </td>
+   <td style="text-align:right;"> 3.9841899 </td>
+   <td style="text-align:right;"> 0.2551802 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sex* </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.648829e+00 </td>
+   <td style="text-align:right;"> 4.781364e-01 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.684647e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> -0.6204576 </td>
+   <td style="text-align:right;"> -1.6204183 </td>
+   <td style="text-align:right;"> 0.0276513 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> smoking* </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.321070e+00 </td>
+   <td style="text-align:right;"> 4.676704e-01 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.278008e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.7626368 </td>
+   <td style="text-align:right;"> -1.4231112 </td>
+   <td style="text-align:right;"> 0.0270461 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hypertension* </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.351171e+00 </td>
+   <td style="text-align:right;"> 4.781364e-01 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.315353e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.6204576 </td>
+   <td style="text-align:right;"> -1.6204183 </td>
+   <td style="text-align:right;"> 0.0276513 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> deceased* </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.321070e+00 </td>
+   <td style="text-align:right;"> 4.676704e-01 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.278008e+00 </td>
+   <td style="text-align:right;"> 0.00000 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 2.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.7626368 </td>
+   <td style="text-align:right;"> -1.4231112 </td>
+   <td style="text-align:right;"> 0.0270461 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> follow_up </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 1.302609e+02 </td>
+   <td style="text-align:right;"> 7.761421e+01 </td>
+   <td style="text-align:right;"> 115.0 </td>
+   <td style="text-align:right;"> 1.292780e+02 </td>
+   <td style="text-align:right;"> 105.26460 </td>
+   <td style="text-align:right;"> 4.0 </td>
+   <td style="text-align:right;"> 285.0 </td>
+   <td style="text-align:right;"> 281.0 </td>
+   <td style="text-align:right;"> 0.1265232 </td>
+   <td style="text-align:right;"> -1.2238150 </td>
+   <td style="text-align:right;"> 4.4885455 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>The <code>summary()</code> function gives a basic description of the variables, whereas <code>describe()</code> also gives some information on the standard deviation, skewness and kurtosis.</p>
+<hr>
+</section>
+<section id="creating-synthetic-data" class="level1">
+<h1>Creating synthetic data</h1>
+<p>We will focus on two ways of creating synthetic data:</p>
+<ul>
+<li>Parametric methods</li>
+<li>Non-parametric methods.</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Expand To Learn About Parametric and Non-Parametric Data Synthesis
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Broadly speaking, two methods for creating synthetic data can be distinguished. The first one is based on parametric imputation models, which assumes that the structure of the data is fixed, and draws synthetic values from a pre-specified probability distribution. That is, after estimating a statistical model, the synthetic data are generated from a probability distribution, without making any further use of the observed data. In general, this procedure is less likely to result in an accidental release of disclosive information. However, these parametric methods are often less capable of capturing the complex nature of real-world data sets.</p>
+<p>The subtleties of real-world data are often better reproduced with non-parametric imputation models. Using this approach, a non-parametric model is estimated, resulting in a donor pool out of which a single observation per observation and per variable is drawn. These models thus reuse the observed data to serve as synthetic data. Accordingly, much of the values that were in the observed data end up in the synthetic data. However, these observed data are generally combined in unique ways, it is generally not possible to link this information to the original respondents. The non-parametric procedures often yield better inferences, while still being able to prevent disclosure risk (although more research into measures to qualify the remaining risks is required). Therefore, this practical will showcase how to generate synthetic data using one such non-parametric method: classification and regression trees [CART; <span class="citation" data-cites="breiman_cart_1984">Breiman et al. (<a href="#ref-breiman_cart_1984" role="doc-biblioref">1984</a>)</span>].</p>
+</div>
+</div>
+</div>
+<hr>
+<p>We will use both approaches to generate synthetic data. For the parametric methods, this implies that all variables are synthesized through linear and logistic conditional models. For the non-parametric methods, we will synthesize all data using classification and regression trees <span class="citation" data-cites="breiman_cart_1984">(CART; <a href="#ref-breiman_cart_1984" role="doc-biblioref">Breiman et al. 1984</a>)</span>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Expand To Learn More About The MICE Algorithm
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In general, <code>mice</code> proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all other variables in the data. Specifically, a model is trained on the observed data, and new values for variable <span class="math inline">\(X_j\)</span> are imputed on the basis of all other variables <span class="math inline">\(X_{-j}\)</span>. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved.</p>
+</div>
+</div>
+</div>
+<hr>
+<p>Before we can use <code>mice</code> to generate synthetic data, we have to take care of some issues, because <code>mice</code> was not initially developed to create synthetic data. Specifically, we have to do two things: specify which values we want to synthesize and specify which method we want to use for the imputations.</p>
+<hr>
+<p><strong>4. Create a matrix of the same dimensions as the original data called <code>where</code>, specifying all cells as the logical operator <code>TRUE</code>.</strong></p>
+<hr>
+<p><em>Hint:</em> You can use the <code>mice</code> function <code>make.where()</code>.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>where <span class="ot">&lt;-</span> <span class="fu">make.where</span>(heart_failure, <span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p><strong>5. Create a vector of length 13 called <code>parametric</code>, to specify linear and logistic imputation models for continuous and categorical variables, respectively.</strong></p>
+<hr>
+<p><em>Hint:</em> You can use <code>make.method()</code> to create an initial vector with imputation methods, with parameters <code>data = heart_failure</code>, <code>where = where</code> and <code>defaultMethod = c("norm", "logreg")</code>.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>parametric <span class="ot">&lt;-</span> <span class="fu">make.method</span>(heart_failure, <span class="at">where =</span> where, <span class="at">defaultMethod =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"logreg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>We will directly create a method object for non-parametric synthesis. Because we use CART regardless of the variable type, we only have to assign <code>"cart"</code> to an object called <code>nonparametric</code>.</p>
+<hr>
+<p><strong>6. Create an object called <code>nonparametric</code>, and assign it the character string <code>"cart"</code>.</strong></p>
+<hr>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nonparametric <span class="ot">&lt;-</span> <span class="st">"cart"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>Now we have specified which values ought to be synthetic, and which method to use to create the synthetic values, we can actually create the synthetic data.</p>
+<hr>
+<p><strong>7. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_param</code>, using the previously specified <code>parametric</code> method-vector and <code>where</code>-matrix.</strong></p>
+<hr>
+<p><em>Hint:</em> When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set <code>maxit = 1</code>.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>syn_param <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">m =</span> <span class="dv">1</span>, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> parametric,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>We will directly create a synthetic data set using the non-parametric CART synthesis model.</p>
+<hr>
+<p><strong>8. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_nonparam</code>, using the <code>nonparametric</code> method object and the same <code>where</code>-matrix.</strong></p>
+<hr>
+<p><em>Hint:</em> A single iteration is again sufficient.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Show code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>syn_param <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">m =</span> <span class="dv">1</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> nonparametric,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<p>Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. Quality control is conveniently performed using visual methods, and can be done using the package <code>ggmice</code> <span class="citation" data-cites="ggmice">(<a href="#ref-ggmice" role="doc-biblioref">Oberman 2022</a>)</span>.</p>
+<hr>
+<p><strong>END OF PRACTICAL 1</strong></p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-tanvir_heart_failure_2017" class="csl-entry" role="doc-biblioentry">
+Ahmad, Assia AND Bhatti, Tanvir AND Munir. 2017. <span>“Survival Analysis of Heart Failure Patients: A Case Study.”</span> <em>PLOS ONE</em> 12 (7): 1–8. <a href="https://doi.org/10.1371/journal.pone.0181001">https://doi.org/10.1371/journal.pone.0181001</a>.
+</div>
+<div id="ref-breiman_cart_1984" class="csl-entry" role="doc-biblioentry">
+Breiman, Leo, Jerome Friedman, Charles J Stone, and Richard A Olshen. 1984. <em>Classification and Regression Trees</em>. New York: CRC press. <a href="https://doi.org/10.1201/9781315139470">https://doi.org/10.1201/9781315139470</a>.
+</div>
+<div id="ref-chicco_ml_2020" class="csl-entry" role="doc-biblioentry">
+Chicco, Davide, and Giuseppe Jurman. 2020. <span>“Machine Learning Can Predict Survival of Patients with Heart Failure from Serum Creatinine and Ejection Fraction Alone.”</span> <em>BMC Medical Informatics and Decision Making</em> 20 (1): 16. <a href="https://doi.org/10.1186/s12911-020-1023-5">https://doi.org/10.1186/s12911-020-1023-5</a>.
+</div>
+<div id="ref-purrr" class="csl-entry" role="doc-biblioentry">
+Henry, Lionel, and Hadley Wickham. 2022. <em>Purrr: Functional Programming Tools</em>. <a href="https://CRAN.R-project.org/package=purrr">https://CRAN.R-project.org/package=purrr</a>.
+</div>
+<div id="ref-iveware" class="csl-entry" role="doc-biblioentry">
+<span>“<span>IVE</span>ware: Imputation and Variance Estimation Software.”</span> n.d. <a href="https://www.src.isr.umich.edu/wp-content/uploads/iveware-manual-Version-0.3.pdf">https://www.src.isr.umich.edu/wp-content/uploads/iveware-manual-Version-0.3.pdf</a>.
+</div>
+<div id="ref-synthpop" class="csl-entry" role="doc-biblioentry">
+Nowok, Beata, Gillian M. Raab, and Chris Dibben. 2016. <span>“<span class="nocase">synthpop</span>: Bespoke Creation of Synthetic Data in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 74 (11): 1–26. <a href="https://doi.org/10.18637/jss.v074.i11">https://doi.org/10.18637/jss.v074.i11</a>.
+</div>
+<div id="ref-ggmice" class="csl-entry" role="doc-biblioentry">
+Oberman, Hanne. 2022. <em>Ggmice: Visualizations for ’Mice’ with ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=ggmice">https://CRAN.R-project.org/package=ggmice</a>.
+</div>
+<div id="ref-patchwork" class="csl-entry" role="doc-biblioentry">
+Pedersen, Thomas Lin. 2022. <em>Patchwork: The Composer of Plots</em>. <a href="https://CRAN.R-project.org/package=patchwork">https://CRAN.R-project.org/package=patchwork</a>.
+</div>
+<div id="ref-psych" class="csl-entry" role="doc-biblioentry">
+Revelle, William. 2022. <em>Psych: Procedures for Psychological, Psychometric, and Personality Research</em>. Evanston, Illinois: Northwestern University. <a href="https://CRAN.R-project.org/package=psych">https://CRAN.R-project.org/package=psych</a>.
+</div>
+<div id="ref-mice" class="csl-entry" role="doc-biblioentry">
+van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“<span class="nocase">mice</span>: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="https://doi.org/10.18637/jss.v045.i03">https://doi.org/10.18637/jss.v045.i03</a>.
+</div>
+<div id="ref-volker_vink_synthetic_mice_2021" class="csl-entry" role="doc-biblioentry">
+Volker, Thom Benjamin, and Gerko Vink. 2021. <span>“Anonymiced Shareable Data: Using Mice to Create and Analyze Multiply Imputed Synthetic Datasets.”</span> <em>Psych</em> 3 (4): 703–16. <a href="https://doi.org/10.3390/psych3040045">https://doi.org/10.3390/psych3040045</a>.
+</div>
+<div id="ref-ggplot2" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
