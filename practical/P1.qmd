@@ -395,7 +395,7 @@ syn_param <- mice(heart_failure,
 
 ---
 
-Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. Quality control is conveniently performed using visual methods, and can be done using the package `ggmice` [@ggmice].
+Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. This is what we will do in Practical 2.
 
 ---
 
