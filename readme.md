@@ -22,7 +22,7 @@ Privacy and confidentiality constraints often prevent or complicate the open dis
 | Name | email |
 | :--- | :------ |
 | Thom Volker | [t.b.volker@uu.nl](mailto:t.b.volker@uu.nl) |
-| Erik-Jan van Kesteren | [e.vankesteren1@uu.nl](e.vankesteren1@uu.nl) |
+| Erik-Jan van Kesteren | [e.vankesteren1@uu.nl](mailto:e.vankesteren1@uu.nl) |
 
 
 
