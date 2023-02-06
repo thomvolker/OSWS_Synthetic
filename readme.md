@@ -7,7 +7,7 @@ Privacy and confidentiality constraints often prevent or complicate the open dis
 | Time  | Duration | What          | Link | 
 | :---: | :------: | :------------ | :--- |
 | 13:30 | 00:20    | Intro         | [Slides](./lectures/introduction.pdf) |
-| 13:50 | 00:30    | Practical 1   | [Practical](./practical/P1.html)      |
+| 13:50 | 00:30    | Practical 1   | [Practical](thomvolker.github.io/OSWS_Synthetic/practical/P1.html) |
 | 14:20 | 00:10    | Break         | |
 | 14:30 | 00:15    | Lecture       | |
 | 14:45 | 00:40    | Practical 2   | |
