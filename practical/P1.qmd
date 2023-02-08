@@ -124,6 +124,7 @@ install.packages("ggplot2")
 install.packages("patchwork")
 install.packages("psych")
 install.packages("purrr")
+install.packages("tidyverse")
 install.packages("synthpop")
 ```
 
@@ -134,6 +135,7 @@ library(ggplot2)   # required when using ggmice
 library(patchwork) # to stitch multiple figures together
 library(psych)     # to obtain descriptive statistics
 library(purrr)     # to work with multiply imputed synthetic datasets
+library(tidyverse) # to do some data wrangling
 library(synthpop)  # to assess the utility of our synthetic data
 ```
 
@@ -268,6 +270,7 @@ The subtleties of real-world data are often better reproduced with non-parametri
 We will use both approaches to generate synthetic data. For the parametric methods, this implies that all variables are synthesized through linear and logistic conditional models. For the non-parametric methods, we will synthesize all data using classification and regression trees [CART\; @breiman_cart_1984].
 
 ::: {.callout-note collapse="true"}
+
 ## Expand To Learn More About The MICE Algorithm
 
 In general, `mice` proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all other variables in the data. Specifically, a model is trained on the observed data, and new values for variable $X_j$ are imputed on the basis of all other variables $X_{-j}$. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved. 
@@ -311,7 +314,9 @@ _Hint:_ You can use `make.method()` to create an initial vector with imputation 
 
 ```{r}
 #| label: make-param
-parametric <- make.method(heart_failure, where = where, defaultMethod = c("norm", "logreg"))
+parametric <- make.method(heart_failure, 
+                          where = where, 
+                          defaultMethod = c("norm", "logreg"))
 ```
 
 :::
@@ -348,7 +353,7 @@ __7. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_
 
 ---
 
-_Hint:_ When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set `maxit = 1`.
+_Hint:_ When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set `maxit = 1`. Use `seed = 123` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
@@ -361,7 +366,8 @@ syn_param <- mice(heart_failure,
                   m = 1, 
                   maxit = 1,
                   method = parametric,
-                  where = where)
+                  where = where,
+                  seed = 123)
 ```
 
 :::
@@ -376,7 +382,7 @@ __8. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_
 
 ---
 
-_Hint:_ A single iteration is again sufficient. 
+_Hint:_ A single iteration is again sufficient. Use `seed = 123` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
@@ -384,20 +390,30 @@ _Hint:_ A single iteration is again sufficient.
 
 ```{r}
 #| results: false
-syn_param <- mice(heart_failure, 
-                  m = 1, 
-                  maxit = 1,
-                  method = nonparametric,
-                  where = where)
+syn_nonparam <- mice(heart_failure, 
+                     m = 1, 
+                     maxit = 1,
+                     method = nonparametric,
+                     where = where,
+                     seed = 123)
 ```
 
 :::
 
 ---
 
-Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. This is what we will do in Practical 2.
+Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. This is what we will do in [Practical 2](https://thomvolker.github.io/OSWS_Synthetic/practical/P2.html).
 
 ---
 
 __END OF PRACTICAL 1__ 
+
+---
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
 

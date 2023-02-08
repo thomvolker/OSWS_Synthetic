@@ -141,6 +141,7 @@ div.csl-indent {
   <li><a href="#loading-required-packages" id="toc-loading-required-packages" class="nav-link" data-scroll-target="#loading-required-packages">Loading required packages</a></li>
   <li><a href="#getting-to-know-the-data" id="toc-getting-to-know-the-data" class="nav-link" data-scroll-target="#getting-to-know-the-data">Getting to know the data</a></li>
   <li><a href="#creating-synthetic-data" id="toc-creating-synthetic-data" class="nav-link" data-scroll-target="#creating-synthetic-data">Creating synthetic data</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session Info</a></li>
   </ul>
 </nav>
 </div>
@@ -286,7 +287,8 @@ Show Code
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"psych"</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"purrr"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"synthpop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"synthpop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)      <span class="co"># to create the synthetic data</span></span>
@@ -295,7 +297,8 @@ Show Code
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># to stitch multiple figures together</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)     <span class="co"># to obtain descriptive statistics</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)     <span class="co"># to work with multiply imputed synthetic datasets</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(synthpop)  <span class="co"># to assess the utility of our synthetic data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to do some data wrangling</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(synthpop)  <span class="co"># to assess the utility of our synthetic data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -876,7 +879,9 @@ Show code
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>parametric <span class="ot">&lt;-</span> <span class="fu">make.method</span>(heart_failure, <span class="at">where =</span> where, <span class="at">defaultMethod =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"logreg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>parametric <span class="ot">&lt;-</span> <span class="fu">make.method</span>(heart_failure, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">where =</span> where, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">defaultMethod =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"logreg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -909,7 +914,7 @@ Show code
 <hr>
 <p><strong>7. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_param</code>, using the previously specified <code>parametric</code> method-vector and <code>where</code>-matrix.</strong></p>
 <hr>
-<p><em>Hint:</em> When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set <code>maxit = 1</code>.</p>
+<p><em>Hint:</em> When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set <code>maxit = 1</code>. Use <code>seed = 123</code> if you want to reproduce our results.</p>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -927,7 +932,8 @@ Show code
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">m =</span> <span class="dv">1</span>, </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> parametric,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">seed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -937,7 +943,7 @@ Show code
 <hr>
 <p><strong>8. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_nonparam</code>, using the <code>nonparametric</code> method object and the same <code>where</code>-matrix.</strong></p>
 <hr>
-<p><em>Hint:</em> A single iteration is again sufficient.</p>
+<p><em>Hint:</em> A single iteration is again sufficient. Use <code>seed = 123</code> if you want to reproduce our results.</p>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -951,19 +957,85 @@ Show code
 <div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>syn_param <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">m =</span> <span class="dv">1</span>, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> nonparametric,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>syn_nonparam <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">m =</span> <span class="dv">1</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">maxit =</span> <span class="dv">1</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> nonparametric,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">where =</span> where,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">seed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <hr>
-<p>Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. This is what we will do in Practical 2.</p>
+<p>Creating the synthetic data is a piece of cake. However, after creating the synthetic data, we must assess its quality in terms of data utility and disclosure risk. This is what we will do in <a href="https://thomvolker.github.io/OSWS_Synthetic/practical/P2.html">Practical 2</a>.</p>
 <hr>
 <p><strong>END OF PRACTICAL 1</strong></p>
+<hr>
+</section>
+<section id="session-info" class="level1">
+<h1>Session Info</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.2 (2022-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
+[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Dutch_Netherlands.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] synthpop_1.8-0    forcats_0.5.2     stringr_1.5.0     dplyr_1.0.10     
+ [5] readr_2.1.3       tidyr_1.2.1       tibble_3.1.8      tidyverse_1.3.2  
+ [9] purrr_0.3.5       psych_2.2.9       patchwork_1.1.2   ggplot2_3.4.0    
+[13] ggmice_0.0.1.9000 mice_3.14.14     
+
+loaded via a namespace (and not attached):
+  [1] TH.data_1.1-1        googledrive_2.0.0    colorspace_2.0-3    
+  [4] ellipsis_0.3.2       class_7.3-20         modeltools_0.2-23   
+  [7] mipfp_3.2.1          fs_1.5.2             rmutil_1.1.10       
+ [10] rstudioapi_0.14      proxy_0.4-27         fansi_1.0.3         
+ [13] mvtnorm_1.1-3        lubridate_1.8.0      coin_1.4-2          
+ [16] ranger_0.14.1        xml2_1.3.3           codetools_0.2-18    
+ [19] splines_4.2.2        mnormt_2.1.1         libcoin_1.0-9       
+ [22] knitr_1.40           jsonlite_1.8.3       broom_1.0.3         
+ [25] dbplyr_2.2.1         compiler_4.2.2       httr_1.4.4          
+ [28] backports_1.4.1      assertthat_0.2.1     Matrix_1.5-3        
+ [31] fastmap_1.1.0        gargle_1.2.1         strucchange_1.5-3   
+ [34] cli_3.4.1            htmltools_0.5.4      tools_4.2.2         
+ [37] gtable_0.3.1         glue_1.6.2           broman_0.80         
+ [40] Rcpp_1.0.9           cellranger_1.1.0     vctrs_0.5.0         
+ [43] svglite_2.1.0        nlme_3.1-160         xfun_0.34           
+ [46] proto_1.0.0          rvest_1.0.3          lifecycle_1.0.3     
+ [49] cmm_0.12             googlesheets4_1.0.1  polspline_1.1.20    
+ [52] MASS_7.3-58.1        zoo_1.8-11           scales_1.2.1        
+ [55] hms_1.1.2            parallel_4.2.2       sandwich_3.0-2      
+ [58] yaml_2.3.6           rpart_4.1.19         stringi_1.7.8       
+ [61] highr_0.9            randomForest_4.7-1.1 e1071_1.7-12        
+ [64] truncnorm_1.0-8      rlang_1.0.6          pkgconfig_2.0.3     
+ [67] systemfonts_1.0.4    matrixStats_0.62.0   Rsolnp_1.16         
+ [70] evaluate_0.17        lattice_0.20-45      htmlwidgets_1.6.1   
+ [73] tidyselect_1.2.0     plyr_1.8.7           magrittr_2.0.3      
+ [76] R6_2.5.1             generics_0.1.3       multcomp_1.4-20     
+ [79] DBI_1.1.3            pillar_1.8.1         haven_2.5.1         
+ [82] foreign_0.8-83       withr_2.5.0          survival_3.4-0      
+ [85] nnet_7.3-18          modelr_0.1.9         crayon_1.5.2        
+ [88] KernSmooth_2.23-20   utf8_1.2.2           party_1.3-11        
+ [91] tzdb_0.3.0           rmarkdown_2.17       grid_4.2.2          
+ [94] readxl_1.4.1         reprex_2.0.2         digest_0.6.30       
+ [97] classInt_0.4-8       webshot_0.5.4        numDeriv_2016.8-1.1 
+[100] stats4_4.2.2         munsell_0.5.0        viridisLite_0.4.1   
+[103] kableExtra_1.3.4    </code></pre>
+</div>
+</div>
 
 </section>
 
