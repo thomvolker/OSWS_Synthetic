@@ -353,7 +353,7 @@ __7. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_
 
 ---
 
-_Hint:_ When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set `maxit = 1`. Use `seed = 123` if you want to reproduce our results.
+_Hint:_ When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set `maxit = 1`. Use `seed = 1` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
@@ -367,7 +367,7 @@ syn_param <- mice(heart_failure,
                   maxit = 1,
                   method = parametric,
                   where = where,
-                  seed = 123)
+                  seed = 1)
 ```
 
 :::
@@ -382,7 +382,7 @@ __8. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_
 
 ---
 
-_Hint:_ A single iteration is again sufficient. Use `seed = 123` if you want to reproduce our results.
+_Hint:_ A single iteration is again sufficient. Use `seed = 1` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
@@ -395,7 +395,7 @@ syn_nonparam <- mice(heart_failure,
                      maxit = 1,
                      method = nonparametric,
                      where = where,
-                     seed = 123)
+                     seed = 1)
 ```
 
 :::
