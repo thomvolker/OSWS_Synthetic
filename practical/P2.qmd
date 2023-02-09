@@ -320,8 +320,8 @@ This procedure can be repeated for all continuous variables in the data.
 ```{r}
 #| label: single-cont-var-plot-show
 #| echo: false
-p_anaemia_param
-p_anaemia_nonparam
+p_age_param
+p_age_nonparam
 ```
 
 :::
