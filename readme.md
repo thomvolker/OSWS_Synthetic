@@ -9,7 +9,7 @@ Privacy and confidentiality constraints often prevent or complicate the open dis
 | 13:30 | 00:20    | Intro         | [Slides](./lectures/introduction.pdf) |
 | 13:50 | 00:30    | Practical 1   | [Practical](https://thomvolker.github.io/OSWS_Synthetic/practical/P1.html) |
 | 14:20 | 00:10    | Break         | |
-| 14:30 | 00:15    | Lecture       | |
+| 14:30 | 00:15    | Lecture       | [Slides](./lectures/privacy_utility.pdf)|
 | 14:45 | 00:40    | Practical 2   | [Practical](https://thomvolker.github.io/OSWS_Synthetic/practical/P2.html) |
 | 15:25 | 00:05    | Closing + end | |
 
