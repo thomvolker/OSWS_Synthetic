@@ -1,11 +1,22 @@
-cff-version: 1.0.0
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: Volker
-  given-names: Thom Benjamin
-- family-names: Van Kesteren
-  given-names: Erik-Jan
-orcid: https://orcid.org/0000-0002-2408-7820
-title: Open Science Winter School on Synthetic Data
-version: v1.0.0
+- family-names: "Volker"
+  given-names: "Thom Benjamin"
+  orcid: "https://orcid.org/0000-0002-2408-7820"
+- family-names: "Van Kesteren"
+  given-names: "Erik-Jan"
+title: "Fake it till you make it: Generating synthetic data with high utility in R"
+version: 1.0.0
+doi: 10.5281/zenodo.14198628
 date-released: 2024-11-21
+url: "https://thomvolker.github.io/OSWS_Synthetic/"
+preferred-citation:
+  authors:
+  - family-names: "Volker"
+    given-names: "Thom Benjamin"
+    orcid: "https://orcid.org/0000-0002-2408-7820"
+  - family-names: "Van Kesteren"
+    given-names: "Erik-Jan"
+  title: "Fake it till you make it: Generating synthetic data with high utility in R"
+  doi: 10.5281/zenodo.14198628
