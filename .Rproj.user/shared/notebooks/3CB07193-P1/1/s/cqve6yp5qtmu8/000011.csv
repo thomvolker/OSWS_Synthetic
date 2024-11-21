@@ -1,0 +1,3 @@
+"0","#| label: head-data"
+"0","#| results: false"
+"0","head(heart_failure)"

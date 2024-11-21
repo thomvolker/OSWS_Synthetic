@@ -1,0 +1,20 @@
+"0","syn_param
+"
+"1","Call:
+($call) "
+"1","syn(data = heart_failure, method = ""parametric"", default.method = c(""norm"", 
+"
+"1","    ""logreg"", ""polyreg"", ""polr""), seed = 1)
+"
+"1","
+Number of synthesised data sets: 
+($m) "
+"1"," "
+"1","1"
+"1"," "
+"1","
+"
+"1","
+First rows of synthesised data set: 
+($syn)
+"

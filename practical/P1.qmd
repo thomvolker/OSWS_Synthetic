@@ -15,7 +15,7 @@ format:
 
 ---
 
-In this workshop, you will learn how to create and evaluate synthetic data in `R`. In the practical, we will work with the `R` package `mice` [@mice]. `mice` was originally developed to impute missing data, but, as you will experience, can also be used to impute synthetic data [see @volker_vink_synthetic_mice_2021]. Other alternatives to create synthetic data are, for example, the R-package `synthpop` [@synthpop], or the stand-alone software `IVEware` [@iveware]. 
+In this workshop, you will learn how to create and evaluate synthetic data in `R`. In the practical, we will work with the `R` package `synthpop` [@synthpop]. The `synthpop` package is a powerful tool explicitly designed to generate synthetic data. Other alternatives to create synthetic data are, for example, the R-package `mice` [@mice], or the stand-alone software `IVEware` [@iveware].
 
 If you have `R` and `R Studio` installed on your device, you can follow all the steps from this practical using your local version of R Studio. In case you do not have an installation of `R` and `R Studio`, you can quickly create an account on [R Studio Cloud](https://login.rstudio.cloud/register), and work with a project that is set-up for this workshop (the link will follow). Note that you have the opportunity to work with your own data (you can also use data provided by us). If you are going to work via `R Studio Cloud`, you may not want to upload your own data to this server. In this case, you can still decide to work with the data provided by us. You could also install `R` and `R Studio` on the spot, but since we do not have infinite time, we advise to use `R Studio Cloud` if you have no access to `R` and `R Studio` on your device already.
 
@@ -104,11 +104,11 @@ In the sequel, we will outline how to create and evaluate synthetic data using t
 
 ---
 
-In this workshop, you will (at least) use the packages `mice` [@mice], `ggmice` [@ggmice], `ggplot2` [@ggplot2], `patchwork` [@patchwork], `psych` [@psych], `purrr` [@purrr] and `synthpop` [@synthpop]. Make sure to load them (in case you haven't installed them already, install them first, using `install.packages("package.name")`).
+In this workshop, you will (at least) use the packages `synthpop` [@synthpop], `ggplot2` [@ggplot2], `patchwork` [@patchwork], `psych` [@psych] and `purrr` [@purrr]. Make sure to load them (in case you haven't installed them already, install them first, using `install.packages("package.name")`).
 
 ---
 
-__1. Install the `R`-packages `mice` and `ggmice` from GitHub, and `ggplot2`, `patchwork`, `psych`, `purrr` and `synthpop` from `CRAN`, and load these packages using `library()`.__
+__1. Install the `R`-packages `synthpop`, `ggplot2`, `patchwork`, `psych`, `tidyverse`, `purrr` from `CRAN`, and load these packages using `library()`.__
 
 ---
 
@@ -118,25 +118,22 @@ __1. Install the `R`-packages `mice` and `ggmice` from GitHub, and `ggplot2`, `p
 
 ```{r, install-packages}
 #| eval: false
-remotes::install_github("amices/mice")
-remotes::install_github("amices/ggmice")
+
+install.packages("synthpop")
 install.packages("ggplot2")
 install.packages("patchwork")
 install.packages("psych")
 install.packages("purrr")
 install.packages("tidyverse")
-install.packages("synthpop")
 ```
 
 ```{r load-packages, message=F, warning=F}
-library(mice)      # to create the synthetic data
-library(ggmice)    # to make visualizations of the synthetic data
+library(synthpop)  # to assess the utility of our synthetic data
 library(ggplot2)   # required when using ggmice
 library(patchwork) # to stitch multiple figures together
 library(psych)     # to obtain descriptive statistics
 library(purrr)     # to work with multiply imputed synthetic datasets
 library(tidyverse) # to do some data wrangling
-library(synthpop)  # to assess the utility of our synthetic data
 ```
 
 :::
@@ -271,131 +268,84 @@ We will use both approaches to generate synthetic data. For the parametric metho
 
 ::: {.callout-note collapse="true"}
 
-## Expand To Learn More About The MICE Algorithm
+## Expand To Learn More About The SYNTHPOP Algorithm
 
-In general, `mice` proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all other variables in the data. Specifically, a model is trained on the observed data, and new values for variable $X_j$ are imputed on the basis of all other variables $X_{-j}$. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved. 
+The `synthpop` algorithm is based on strategies that are used for imputing missing data, and is inspired by the `mice` algorithm. In general, `synthpop` proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all previously synthesized variables in the data. Specifically, a model is trained on the observed data, and new values for variable $X_j$ are imputed on the basis of the variables $X_{1:(j-1)}$. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved. 
 
 :::
 
 ---
 
-Before we can use `mice` to generate synthetic data, we have to take care of some issues, because `mice` was not initially developed to create synthetic data. Specifically, we have to do two things: specify which values we want to synthesize and specify which method we want to use for the imputations.
+We will use `synthpop` to generate synthetic data using a parametric and a non-parametric synthesis strategy. 
 
 ---
 
-__4. Create a matrix of the same dimensions as the original data called `where`, specifying all cells as the logical operator `TRUE`.__
+__4. Use `synthpop()` to create a synthetic data set in an object called `syn_param` using `method = "parametric", and set the argument `default.method = c("norm", "logreg", "polyreg", "polr")`.__
 
 ---
 
-_Hint:_ You can use the `mice` function `make.where()`.
+_Hint:_ Use `seed = 1` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
 ## Show code
 
 ```{r}
-#| label: make-where
-where <- make.where(heart_failure, "all")
+#| label: synthpop-parametric
+#| eval: false
+
+syn_param <- syn(heart_failure, 
+                 method = "parametric", 
+                 default.method = c("norm", "logreg", "polyreg", "polr"),
+                 seed = 1)
 ```
 
 :::
 
 ---
 
-__5. Create a vector of length `r ncol(heart_failure)` called `parametric`, to specify linear and logistic imputation models for continuous and categorical variables, respectively.__
+__5. Inspect the `syn_param` object, what do you see?__
 
 ---
-
-_Hint:_ You can use `make.method()` to create an initial vector with imputation methods, with parameters `data = heart_failure`, `where = where` and `defaultMethod = c("norm", "logreg")`. 
 
 ::: {.callout-tip collapse=true}
 
 ## Show code
 
 ```{r}
-#| label: make-param
-parametric <- make.method(heart_failure, 
-                          where = where, 
-                          defaultMethod = c("norm", "logreg"))
+#| label: inspect-syn-param
+#| eval: false
+
+syn_param
 ```
+
+Calling `syn_param` shows you some important features of the synthesis procedure. First, it shows the number of synthetic data sets that were generated (`syn_param$m`). Also, it shows for every variable the method that was used to synthesize the data (`syn_param$method`). If you want to know more about a specific synthesis method, for example, `logreg`, you can call `?syn.logreg` to get more information.
 
 :::
 
 ---
 
-We will directly create a method object for non-parametric synthesis. Because we use CART regardless of the variable type, we only have to assign `"cart"` to an object called `nonparametric`.
+__6. Use `synthpop()` to create a synthetic data set in an object called `syn_nonparam` using `method = "cart".__
 
----
+::: {.callout-important collapse=false}
 
-__6. Create an object called `nonparametric`, and assign it the character string `"cart"`.__
-
-
----
-
-::: {.callout-tip collapse=true}
-
-## Show code
-
-```{r}
-#| label: make-nonparam
-nonparametric <- "cart"
-```
+The `CART` method samples observations from the original data and uses these to construct the synthetic observations. In practice, this might yield un unacceptably large privacy risk (also depending on the sensitivity of your data). This risk can be reduced by using smoothing, for example, by using the `smoothing` argument in the `syn()` function. For the sake of exposition, we don't use smoothing in this practical, but in practical situations it is recommended to use smoothing.
 
 :::
 
 ---
 
-Now we have specified which values ought to be synthetic, and which method to use to create the synthetic values, we can actually create the synthetic data.
-
----
-
-__7. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_param`, using the previously specified `parametric` method-vector and `where`-matrix.__
-
----
-
-_Hint:_ When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set `maxit = 1`. Use `seed = 1` if you want to reproduce our results.
+_Hint:_ Use `seed = 1` if you want to reproduce our results.
 
 ::: {.callout-tip collapse=true}
 
 ## Show code
 
 ```{r}
-#| label: synthesize-parametric
-#| results: false
-syn_param <- mice(heart_failure, 
-                  m = 1, 
-                  maxit = 1,
-                  method = parametric,
-                  where = where,
-                  seed = 1)
-```
+#| label: synthpop-nonparametric
+#| eval: false
 
-:::
-
----
-
-We will directly create a synthetic data set using the non-parametric CART synthesis model.
-
----
-
-__8. Use `mice()` to create `m = 1` synthetic data set in an object called `syn_nonparam`, using the `nonparametric` method object and the same `where`-matrix.__
-
----
-
-_Hint:_ A single iteration is again sufficient. Use `seed = 1` if you want to reproduce our results.
-
-::: {.callout-tip collapse=true}
-
-## Show code
-
-```{r}
-#| results: false
-syn_nonparam <- mice(heart_failure, 
-                     m = 1, 
-                     maxit = 1,
-                     method = nonparametric,
-                     where = where,
-                     seed = 1)
+syn_nonparam <- syn(heart_failure, method = "cart", seed = 1)
 ```
 
 :::

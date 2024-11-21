@@ -1,0 +1,8 @@
+"0","tibble::tibble(`Programme` = c(""Excel"", ""Excel"", ""SPSS"", ""Stata""), "
+"0","               `Format` = c("".xlsx"", "".csv"", "".sav"", "".dta""), "
+"0","               `Command` = c('readxl::read_xlsx(""path_to_file/data_name.xlsx"")',"
+"0","                             'readr::read_csv(""path_to_file/data_name.csv"")',"
+"0","                             'haven::read_sav(""path_to_file/data_name.sav"")',"
+"0","                             'haven::read_dta(""path_to_file/data_name.dta"")')) |>"
+"0","  knitr::kable() |>"
+"0","  kableExtra::kable_styling(c(""striped"", ""hover""))"

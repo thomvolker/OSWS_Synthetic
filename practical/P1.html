@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,11 +18,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -47,48 +48,20 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -102,8 +75,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="P1_files/libs/clipboard/clipboard.min.js"></script>
@@ -116,11 +88,40 @@ div.csl-indent {
 <script src="P1_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="P1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="P1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-
 <script src="P1_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
 <link href="P1_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -169,12 +170,14 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <hr>
-<p>In this workshop, you will learn how to create and evaluate synthetic data in <code>R</code>. In the practical, we will work with the <code>R</code> package <code>mice</code> <span class="citation" data-cites="mice">(<a href="#ref-mice" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>. <code>mice</code> was originally developed to impute missing data, but, as you will experience, can also be used to impute synthetic data <span class="citation" data-cites="volker_vink_synthetic_mice_2021">(see <a href="#ref-volker_vink_synthetic_mice_2021" role="doc-biblioref">Volker and Vink 2021</a>)</span>. Other alternatives to create synthetic data are, for example, the R-package <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>, or the stand-alone software <code>IVEware</code> <span class="citation" data-cites="iveware">(<a href="#ref-iveware" role="doc-biblioref"><span>“<span>IVE</span>ware: Imputation and Variance Estimation Software,”</span> n.d.</a>)</span>.</p>
+<p>In this workshop, you will learn how to create and evaluate synthetic data in <code>R</code>. In the practical, we will work with the <code>R</code> package <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>. The <code>synthpop</code> package is a powerful tool explicitly designed to generate synthetic data. Other alternatives to create synthetic data are, for example, the R-package <code>mice</code> <span class="citation" data-cites="mice">(<a href="#ref-mice" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>, or the stand-alone software <code>IVEware</code> <span class="citation" data-cites="iveware">(<a href="#ref-iveware" role="doc-biblioref"><span>“<span>IVE</span>ware: Imputation and Variance Estimation Software,”</span> n.d.</a>)</span>.</p>
 <p>If you have <code>R</code> and <code>R Studio</code> installed on your device, you can follow all the steps from this practical using your local version of R Studio. In case you do not have an installation of <code>R</code> and <code>R Studio</code>, you can quickly create an account on <a href="https://login.rstudio.cloud/register">R Studio Cloud</a>, and work with a project that is set-up for this workshop (the link will follow). Note that you have the opportunity to work with your own data (you can also use data provided by us). If you are going to work via <code>R Studio Cloud</code>, you may not want to upload your own data to this server. In this case, you can still decide to work with the data provided by us. You could also install <code>R</code> and <code>R Studio</code> on the spot, but since we do not have infinite time, we advise to use <code>R Studio Cloud</code> if you have no access to <code>R</code> and <code>R Studio</code> on your device already.</p>
 <hr>
 </section>
@@ -214,38 +217,38 @@ div.csl-indent {
 <p>In case you brought your own data, you can load it into <code>R</code> using a function that matches your data format. Below, you can find several functions that might be helpful if you want to load the your data into <code>R</code>. You can use these functions both locally, or on <code>R Studio Cloud</code>, but make sure to install the required package first.</p>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> Programme </th>
-   <th style="text-align:left;"> Format </th>
-   <th style="text-align:left;"> Command </th>
-  </tr>
- </thead>
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Programme</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Format</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Command</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> Excel </td>
-   <td style="text-align:left;"> .xlsx </td>
-   <td style="text-align:left;"> readxl::read_xlsx("path_to_file/data_name.xlsx") </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Excel </td>
-   <td style="text-align:left;"> .csv </td>
-   <td style="text-align:left;"> readr::read_csv("path_to_file/data_name.csv") </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> SPSS </td>
-   <td style="text-align:left;"> .sav </td>
-   <td style="text-align:left;"> haven::read_sav("path_to_file/data_name.sav") </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Stata </td>
-   <td style="text-align:left;"> .dta </td>
-   <td style="text-align:left;"> haven::read_dta("path_to_file/data_name.dta") </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Excel</td>
+<td style="text-align: left;">.xlsx</td>
+<td style="text-align: left;">readxl::read_xlsx("path_to_file/data_name.xlsx")</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Excel</td>
+<td style="text-align: left;">.csv</td>
+<td style="text-align: left;">readr::read_csv("path_to_file/data_name.csv")</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SPSS</td>
+<td style="text-align: left;">.sav</td>
+<td style="text-align: left;">haven::read_sav("path_to_file/data_name.sav")</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stata</td>
+<td style="text-align: left;">.dta</td>
+<td style="text-align: left;">haven::read_dta("path_to_file/data_name.dta")</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 </div>
@@ -264,16 +267,16 @@ div.csl-indent {
 <section id="loading-required-packages" class="level1">
 <h1>Loading required packages</h1>
 <hr>
-<p>In this workshop, you will (at least) use the packages <code>mice</code> <span class="citation" data-cites="mice">(<a href="#ref-mice" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>, <code>ggmice</code> <span class="citation" data-cites="ggmice">(<a href="#ref-ggmice" role="doc-biblioref">Oberman 2022</a>)</span>, <code>ggplot2</code> <span class="citation" data-cites="ggplot2">(<a href="#ref-ggplot2" role="doc-biblioref">Wickham 2016</a>)</span>, <code>patchwork</code> <span class="citation" data-cites="patchwork">(<a href="#ref-patchwork" role="doc-biblioref">Pedersen 2022</a>)</span>, <code>psych</code> <span class="citation" data-cites="psych">(<a href="#ref-psych" role="doc-biblioref">Revelle 2022</a>)</span>, <code>purrr</code> <span class="citation" data-cites="purrr">(<a href="#ref-purrr" role="doc-biblioref">Henry and Wickham 2022</a>)</span> and <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>. Make sure to load them (in case you haven’t installed them already, install them first, using <code>install.packages("package.name")</code>).</p>
+<p>In this workshop, you will (at least) use the packages <code>synthpop</code> <span class="citation" data-cites="synthpop">(<a href="#ref-synthpop" role="doc-biblioref">Nowok, Raab, and Dibben 2016</a>)</span>, <code>ggplot2</code> <span class="citation" data-cites="ggplot2">(<a href="#ref-ggplot2" role="doc-biblioref">Wickham 2016</a>)</span>, <code>patchwork</code> <span class="citation" data-cites="patchwork">(<a href="#ref-patchwork" role="doc-biblioref">Pedersen 2022</a>)</span>, <code>psych</code> <span class="citation" data-cites="psych">(<a href="#ref-psych" role="doc-biblioref">Revelle 2022</a>)</span> and <code>purrr</code> <span class="citation" data-cites="purrr">(<a href="#ref-purrr" role="doc-biblioref">Henry and Wickham 2022</a>)</span>. Make sure to load them (in case you haven’t installed them already, install them first, using <code>install.packages("package.name")</code>).</p>
 <hr>
-<p><strong>1. Install the <code>R</code>-packages <code>mice</code> and <code>ggmice</code> from GitHub, and <code>ggplot2</code>, <code>patchwork</code>, <code>psych</code>, <code>purrr</code> and <code>synthpop</code> from <code>CRAN</code>, and load these packages using <code>library()</code>.</strong></p>
+<p><strong>1. Install the <code>R</code>-packages <code>synthpop</code>, <code>ggplot2</code>, <code>patchwork</code>, <code>psych</code>, <code>tidyverse</code>, <code>purrr</code> from <code>CRAN</code>, and load these packages using <code>library()</code>.</strong></p>
 <hr>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -281,24 +284,20 @@ Show Code
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"amices/mice"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"amices/ggmice"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"psych"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"purrr"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"synthpop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"synthpop"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"psych"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"purrr"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)      <span class="co"># to create the synthetic data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmice)    <span class="co"># to make visualizations of the synthetic data</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)   <span class="co"># required when using ggmice</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># to stitch multiple figures together</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)     <span class="co"># to obtain descriptive statistics</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)     <span class="co"># to work with multiply imputed synthetic datasets</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to do some data wrangling</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(synthpop)  <span class="co"># to assess the utility of our synthetic data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(synthpop)  <span class="co"># to assess the utility of our synthetic data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)   <span class="co"># required when using ggmice</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># to stitch multiple figures together</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)     <span class="co"># to obtain descriptive statistics</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)     <span class="co"># to work with multiply imputed synthetic datasets</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># to do some data wrangling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -312,12 +311,12 @@ Show Code
 <hr>
 <p><strong>2. Inspect the first few rows of the data using <code>head()</code>.</strong></p>
 <hr>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -330,12 +329,12 @@ Show Code
 </div>
 </div>
 </div>
-<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Output
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -344,118 +343,119 @@ Show Output
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="cell-output-display">
-
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> age </th>
-   <th style="text-align:left;"> anaemia </th>
-   <th style="text-align:right;"> creatinine_phosphokinase </th>
-   <th style="text-align:left;"> diabetes </th>
-   <th style="text-align:right;"> ejection_fraction </th>
-   <th style="text-align:right;"> platelets </th>
-   <th style="text-align:right;"> serum_creatinine </th>
-   <th style="text-align:right;"> serum_sodium </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> smoking </th>
-   <th style="text-align:left;"> hypertension </th>
-   <th style="text-align:left;"> deceased </th>
-   <th style="text-align:right;"> follow_up </th>
-  </tr>
- </thead>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">age</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">anaemia</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">creatinine_phosphokinase</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">diabetes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ejection_fraction</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">platelets</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">serum_creatinine</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">serum_sodium</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">smoking</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hypertension</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">deceased</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">follow_up</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 582 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:right;"> 265000 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 130 </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 55 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 7861 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 38 </td>
-   <td style="text-align:right;"> 263358 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 6 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 65 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 146 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:right;"> 162000 </td>
-   <td style="text-align:right;"> 1.3 </td>
-   <td style="text-align:right;"> 129 </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 7 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 50 </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 111 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:right;"> 210000 </td>
-   <td style="text-align:right;"> 1.9 </td>
-   <td style="text-align:right;"> 137 </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 7 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 65 </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 160 </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:right;"> 327000 </td>
-   <td style="text-align:right;"> 2.7 </td>
-   <td style="text-align:right;"> 116 </td>
-   <td style="text-align:left;"> Female </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 90 </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 47 </td>
-   <td style="text-align:left;"> No </td>
-   <td style="text-align:right;"> 40 </td>
-   <td style="text-align:right;"> 204000 </td>
-   <td style="text-align:right;"> 2.1 </td>
-   <td style="text-align:right;"> 132 </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:left;"> Yes </td>
-   <td style="text-align:right;"> 8 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">582</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">265000</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">130</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">55</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">7861</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">263358</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">65</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">146</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">162000</td>
+<td style="text-align: right;">1.3</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">50</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">210000</td>
+<td style="text-align: right;">1.9</td>
+<td style="text-align: right;">137</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">65</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">327000</td>
+<td style="text-align: right;">2.7</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: left;">Female</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">90</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">204000</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">132</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">8</td>
+</tr>
 </tbody>
-</table></div>
+</table>
+</div>
 
 </div>
 </div>
@@ -465,12 +465,12 @@ Show Output
 <hr>
 <p><strong>3. Use the <code>summary()</code> or <code>describe()</code> function to get a higher-level overview of the data.</strong></p>
 <hr>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Code <code>summary()</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -483,12 +483,12 @@ Show Code <code>summary()</code>
 </div>
 </div>
 </div>
-<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Output <code>summary()</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -523,12 +523,12 @@ Show Output <code>summary()</code>
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Code <code>describe()</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -541,12 +541,12 @@ Show Code <code>describe()</code>
 </div>
 </div>
 </div>
-<div class="callout-warning callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show Output <code>describe()</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -555,237 +555,238 @@ Show Output <code>describe()</code>
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="cell-output-display">
-
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; "><table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:right;"> vars </th>
-   <th style="text-align:right;"> n </th>
-   <th style="text-align:right;"> mean </th>
-   <th style="text-align:right;"> sd </th>
-   <th style="text-align:right;"> median </th>
-   <th style="text-align:right;"> trimmed </th>
-   <th style="text-align:right;"> mad </th>
-   <th style="text-align:right;"> min </th>
-   <th style="text-align:right;"> max </th>
-   <th style="text-align:right;"> range </th>
-   <th style="text-align:right;"> skew </th>
-   <th style="text-align:right;"> kurtosis </th>
-   <th style="text-align:right;"> se </th>
-  </tr>
- </thead>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">vars</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">median</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trimmed</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mad</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">max</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">range</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">skew</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">kurtosis</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">se</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> age </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 6.083389e+01 </td>
-   <td style="text-align:right;"> 1.189481e+01 </td>
-   <td style="text-align:right;"> 60.0 </td>
-   <td style="text-align:right;"> 6.021715e+01 </td>
-   <td style="text-align:right;"> 14.82600 </td>
-   <td style="text-align:right;"> 40.0 </td>
-   <td style="text-align:right;"> 95.0 </td>
-   <td style="text-align:right;"> 55.0 </td>
-   <td style="text-align:right;"> 0.4188266 </td>
-   <td style="text-align:right;"> -0.2204793 </td>
-   <td style="text-align:right;"> 0.6878946 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> anaemia* </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.431438e+00 </td>
-   <td style="text-align:right;"> 4.961073e-01 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.414938e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.2754750 </td>
-   <td style="text-align:right;"> -1.9305367 </td>
-   <td style="text-align:right;"> 0.0286906 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> creatinine_phosphokinase </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 5.818395e+02 </td>
-   <td style="text-align:right;"> 9.702879e+02 </td>
-   <td style="text-align:right;"> 250.0 </td>
-   <td style="text-align:right;"> 3.654938e+02 </td>
-   <td style="text-align:right;"> 269.83320 </td>
-   <td style="text-align:right;"> 23.0 </td>
-   <td style="text-align:right;"> 7861.0 </td>
-   <td style="text-align:right;"> 7838.0 </td>
-   <td style="text-align:right;"> 4.4184296 </td>
-   <td style="text-align:right;"> 24.5254138 </td>
-   <td style="text-align:right;"> 56.1131970 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> diabetes* </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.418060e+00 </td>
-   <td style="text-align:right;"> 4.940671e-01 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.398340e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.3305857 </td>
-   <td style="text-align:right;"> -1.8970241 </td>
-   <td style="text-align:right;"> 0.0285726 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ejection_fraction </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 3.808361e+01 </td>
-   <td style="text-align:right;"> 1.183484e+01 </td>
-   <td style="text-align:right;"> 38.0 </td>
-   <td style="text-align:right;"> 3.742739e+01 </td>
-   <td style="text-align:right;"> 11.86080 </td>
-   <td style="text-align:right;"> 14.0 </td>
-   <td style="text-align:right;"> 80.0 </td>
-   <td style="text-align:right;"> 66.0 </td>
-   <td style="text-align:right;"> 0.5498228 </td>
-   <td style="text-align:right;"> 0.0005484 </td>
-   <td style="text-align:right;"> 0.6844265 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> platelets </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 2.633580e+05 </td>
-   <td style="text-align:right;"> 9.780424e+04 </td>
-   <td style="text-align:right;"> 262000.0 </td>
-   <td style="text-align:right;"> 2.567301e+05 </td>
-   <td style="text-align:right;"> 65234.40000 </td>
-   <td style="text-align:right;"> 25100.0 </td>
-   <td style="text-align:right;"> 850000.0 </td>
-   <td style="text-align:right;"> 824900.0 </td>
-   <td style="text-align:right;"> 1.4476814 </td>
-   <td style="text-align:right;"> 6.0252322 </td>
-   <td style="text-align:right;"> 5656.1650591 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> serum_creatinine </td>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.393880e+00 </td>
-   <td style="text-align:right;"> 1.034510e+00 </td>
-   <td style="text-align:right;"> 1.1 </td>
-   <td style="text-align:right;"> 1.189295e+00 </td>
-   <td style="text-align:right;"> 0.29652 </td>
-   <td style="text-align:right;"> 0.5 </td>
-   <td style="text-align:right;"> 9.4 </td>
-   <td style="text-align:right;"> 8.9 </td>
-   <td style="text-align:right;"> 4.4113866 </td>
-   <td style="text-align:right;"> 25.1888415 </td>
-   <td style="text-align:right;"> 0.0598273 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> serum_sodium </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.366254e+02 </td>
-   <td style="text-align:right;"> 4.412477e+00 </td>
-   <td style="text-align:right;"> 137.0 </td>
-   <td style="text-align:right;"> 1.368216e+02 </td>
-   <td style="text-align:right;"> 4.44780 </td>
-   <td style="text-align:right;"> 113.0 </td>
-   <td style="text-align:right;"> 148.0 </td>
-   <td style="text-align:right;"> 35.0 </td>
-   <td style="text-align:right;"> -1.0376430 </td>
-   <td style="text-align:right;"> 3.9841899 </td>
-   <td style="text-align:right;"> 0.2551802 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> sex* </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.648829e+00 </td>
-   <td style="text-align:right;"> 4.781364e-01 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.684647e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> -0.6204576 </td>
-   <td style="text-align:right;"> -1.6204183 </td>
-   <td style="text-align:right;"> 0.0276513 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> smoking* </td>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.321070e+00 </td>
-   <td style="text-align:right;"> 4.676704e-01 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.278008e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.7626368 </td>
-   <td style="text-align:right;"> -1.4231112 </td>
-   <td style="text-align:right;"> 0.0270461 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> hypertension* </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.351171e+00 </td>
-   <td style="text-align:right;"> 4.781364e-01 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.315353e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.6204576 </td>
-   <td style="text-align:right;"> -1.6204183 </td>
-   <td style="text-align:right;"> 0.0276513 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> deceased* </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.321070e+00 </td>
-   <td style="text-align:right;"> 4.676704e-01 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 1.278008e+00 </td>
-   <td style="text-align:right;"> 0.00000 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> 0.7626368 </td>
-   <td style="text-align:right;"> -1.4231112 </td>
-   <td style="text-align:right;"> 0.0270461 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> follow_up </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 1.302609e+02 </td>
-   <td style="text-align:right;"> 7.761421e+01 </td>
-   <td style="text-align:right;"> 115.0 </td>
-   <td style="text-align:right;"> 1.292780e+02 </td>
-   <td style="text-align:right;"> 105.26460 </td>
-   <td style="text-align:right;"> 4.0 </td>
-   <td style="text-align:right;"> 285.0 </td>
-   <td style="text-align:right;"> 281.0 </td>
-   <td style="text-align:right;"> 0.1265232 </td>
-   <td style="text-align:right;"> -1.2238150 </td>
-   <td style="text-align:right;"> 4.4885455 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">6.083389e+01</td>
+<td style="text-align: right;">1.189481e+01</td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">6.021715e+01</td>
+<td style="text-align: right;">14.82600</td>
+<td style="text-align: right;">40.0</td>
+<td style="text-align: right;">95.0</td>
+<td style="text-align: right;">55.0</td>
+<td style="text-align: right;">0.4188266</td>
+<td style="text-align: right;">-0.2204793</td>
+<td style="text-align: right;">0.6878946</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anaemia*</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.431438e+00</td>
+<td style="text-align: right;">4.961073e-01</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.414938e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.2754750</td>
+<td style="text-align: right;">-1.9305367</td>
+<td style="text-align: right;">0.0286906</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">creatinine_phosphokinase</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">5.818395e+02</td>
+<td style="text-align: right;">9.702879e+02</td>
+<td style="text-align: right;">250.0</td>
+<td style="text-align: right;">3.654938e+02</td>
+<td style="text-align: right;">269.83320</td>
+<td style="text-align: right;">23.0</td>
+<td style="text-align: right;">7861.0</td>
+<td style="text-align: right;">7838.0</td>
+<td style="text-align: right;">4.4184296</td>
+<td style="text-align: right;">24.5254138</td>
+<td style="text-align: right;">56.1131970</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diabetes*</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.418060e+00</td>
+<td style="text-align: right;">4.940671e-01</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.398340e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.3305857</td>
+<td style="text-align: right;">-1.8970241</td>
+<td style="text-align: right;">0.0285726</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ejection_fraction</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">3.808361e+01</td>
+<td style="text-align: right;">1.183484e+01</td>
+<td style="text-align: right;">38.0</td>
+<td style="text-align: right;">3.742739e+01</td>
+<td style="text-align: right;">11.86080</td>
+<td style="text-align: right;">14.0</td>
+<td style="text-align: right;">80.0</td>
+<td style="text-align: right;">66.0</td>
+<td style="text-align: right;">0.5498228</td>
+<td style="text-align: right;">0.0005484</td>
+<td style="text-align: right;">0.6844265</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">platelets</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">2.633580e+05</td>
+<td style="text-align: right;">9.780424e+04</td>
+<td style="text-align: right;">262000.0</td>
+<td style="text-align: right;">2.567301e+05</td>
+<td style="text-align: right;">65234.40000</td>
+<td style="text-align: right;">25100.0</td>
+<td style="text-align: right;">850000.0</td>
+<td style="text-align: right;">824900.0</td>
+<td style="text-align: right;">1.4476814</td>
+<td style="text-align: right;">6.0252322</td>
+<td style="text-align: right;">5656.1650591</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">serum_creatinine</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.393880e+00</td>
+<td style="text-align: right;">1.034510e+00</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">1.189295e+00</td>
+<td style="text-align: right;">0.29652</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">8.9</td>
+<td style="text-align: right;">4.4113866</td>
+<td style="text-align: right;">25.1888415</td>
+<td style="text-align: right;">0.0598273</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">serum_sodium</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.366254e+02</td>
+<td style="text-align: right;">4.412477e+00</td>
+<td style="text-align: right;">137.0</td>
+<td style="text-align: right;">1.368216e+02</td>
+<td style="text-align: right;">4.44780</td>
+<td style="text-align: right;">113.0</td>
+<td style="text-align: right;">148.0</td>
+<td style="text-align: right;">35.0</td>
+<td style="text-align: right;">-1.0376430</td>
+<td style="text-align: right;">3.9841899</td>
+<td style="text-align: right;">0.2551802</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex*</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.648829e+00</td>
+<td style="text-align: right;">4.781364e-01</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.684647e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">-0.6204576</td>
+<td style="text-align: right;">-1.6204183</td>
+<td style="text-align: right;">0.0276513</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smoking*</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.321070e+00</td>
+<td style="text-align: right;">4.676704e-01</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.278008e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.7626368</td>
+<td style="text-align: right;">-1.4231112</td>
+<td style="text-align: right;">0.0270461</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hypertension*</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.351171e+00</td>
+<td style="text-align: right;">4.781364e-01</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.315353e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.6204576</td>
+<td style="text-align: right;">-1.6204183</td>
+<td style="text-align: right;">0.0276513</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">deceased*</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.321070e+00</td>
+<td style="text-align: right;">4.676704e-01</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.278008e+00</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.7626368</td>
+<td style="text-align: right;">-1.4231112</td>
+<td style="text-align: right;">0.0270461</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">follow_up</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">299</td>
+<td style="text-align: right;">1.302609e+02</td>
+<td style="text-align: right;">7.761421e+01</td>
+<td style="text-align: right;">115.0</td>
+<td style="text-align: right;">1.292780e+02</td>
+<td style="text-align: right;">105.26460</td>
+<td style="text-align: right;">4.0</td>
+<td style="text-align: right;">285.0</td>
+<td style="text-align: right;">281.0</td>
+<td style="text-align: right;">0.1265232</td>
+<td style="text-align: right;">-1.2238150</td>
+<td style="text-align: right;">4.4885455</td>
+</tr>
 </tbody>
-</table></div>
+</table>
+</div>
 
 </div>
 </div>
@@ -803,12 +804,12 @@ Show Output <code>describe()</code>
 <li>Parametric methods</li>
 <li>Non-parametric methods.</li>
 </ul>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Expand To Learn About Parametric and Non-Parametric Data Synthesis
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -822,34 +823,34 @@ Expand To Learn About Parametric and Non-Parametric Data Synthesis
 </div>
 <hr>
 <p>We will use both approaches to generate synthetic data. For the parametric methods, this implies that all variables are synthesized through linear and logistic conditional models. For the non-parametric methods, we will synthesize all data using classification and regression trees <span class="citation" data-cites="breiman_cart_1984">(CART; <a href="#ref-breiman_cart_1984" role="doc-biblioref">Breiman et al. 1984</a>)</span>.</p>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
-Expand To Learn More About The MICE Algorithm
+<div class="callout-title-container flex-fill">
+Expand To Learn More About The SYNTHPOP Algorithm
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>In general, <code>mice</code> proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all other variables in the data. Specifically, a model is trained on the observed data, and new values for variable <span class="math inline">\(X_j\)</span> are imputed on the basis of all other variables <span class="math inline">\(X_{-j}\)</span>. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved.</p>
+<p>The <code>synthpop</code> algorithm is based on strategies that are used for imputing missing data, and is inspired by the <code>mice</code> algorithm. In general, <code>synthpop</code> proceeds as follows: from first to the last column in your data set, the given variable is synthesized based on all previously synthesized variables in the data. Specifically, a model is trained on the observed data, and new values for variable <span class="math inline">\(X_j\)</span> are imputed on the basis of the variables <span class="math inline">\(X_{1:(j-1)}\)</span>. This procedure is repeated sequentially, until all variables are synthesized. In this way, the relationships between the variables are generally preserved.</p>
 </div>
 </div>
 </div>
 <hr>
-<p>Before we can use <code>mice</code> to generate synthetic data, we have to take care of some issues, because <code>mice</code> was not initially developed to create synthetic data. Specifically, we have to do two things: specify which values we want to synthesize and specify which method we want to use for the imputations.</p>
+<p>We will use <code>synthpop</code> to generate synthetic data using a parametric and a non-parametric synthesis strategy.</p>
 <hr>
-<p><strong>4. Create a matrix of the same dimensions as the original data called <code>where</code>, specifying all cells as the logical operator <code>TRUE</code>.</strong></p>
+<p><strong>4. Use <code>synthpop()</code> to create a synthetic data set in an object called <code>syn_param</code> using <code>method = "parametric", and set the argument</code>default.method = c(“norm”, “logreg”, “polyreg”, “polr”)`.</strong></p>
 <hr>
-<p><em>Hint:</em> You can use the <code>mice</code> function <code>make.where()</code>.</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<p><em>Hint:</em> Use <code>seed = 1</code> if you want to reproduce our results.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -857,21 +858,23 @@ Show code
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>where <span class="ot">&lt;-</span> <span class="fu">make.where</span>(heart_failure, <span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>syn_param <span class="ot">&lt;-</span> <span class="fu">syn</span>(heart_failure, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"parametric"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">default.method =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"logreg"</span>, <span class="st">"polyreg"</span>, <span class="st">"polr"</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 <hr>
-<p><strong>5. Create a vector of length 13 called <code>parametric</code>, to specify linear and logistic imputation models for continuous and categorical variables, respectively.</strong></p>
+<p><strong>5. Inspect the <code>syn_param</code> object, what do you see?</strong></p>
 <hr>
-<p><em>Hint:</em> You can use <code>make.method()</code> to create an initial vector with imputation methods, with parameters <code>data = heart_failure</code>, <code>where = where</code> and <code>defaultMethod = c("norm", "logreg")</code>.</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -879,48 +882,38 @@ Show code
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>parametric <span class="ot">&lt;-</span> <span class="fu">make.method</span>(heart_failure, </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">where =</span> where, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">defaultMethod =</span> <span class="fu">c</span>(<span class="st">"norm"</span>, <span class="st">"logreg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>syn_param</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Calling <code>syn_param</code> shows you some important features of the synthesis procedure. First, it shows the number of synthetic data sets that were generated (<code>syn_param$m</code>). Also, it shows for every variable the method that was used to synthesize the data (<code>syn_param$method</code>). If you want to know more about a specific synthesis method, for example, <code>logreg</code>, you can call <code>?syn.logreg</code> to get more information.</p>
 </div>
 </div>
 </div>
 <hr>
-<p>We will directly create a method object for non-parametric synthesis. Because we use CART regardless of the variable type, we only have to assign <code>"cart"</code> to an object called <code>nonparametric</code>.</p>
-<hr>
-<p><strong>6. Create an object called <code>nonparametric</code>, and assign it the character string <code>"cart"</code>.</strong></p>
-<hr>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<p><strong>6. Use <code>synthpop()</code> to create a synthetic data set in an object called <code>syn_nonparam</code> using `method = “cart”.</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
-Show code
+<div class="callout-title-container flex-fill">
+Important
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nonparametric <span class="ot">&lt;-</span> <span class="st">"cart"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>The <code>CART</code> method samples observations from the original data and uses these to construct the synthetic observations. In practice, this might yield un unacceptably large privacy risk (also depending on the sensitivity of your data). This risk can be reduced by using smoothing, for example, by using the <code>smoothing</code> argument in the <code>syn()</code> function. For the sake of exposition, we don’t use smoothing in this practical, but in practical situations it is recommended to use smoothing.</p>
 </div>
 </div>
 </div>
 <hr>
-<p>Now we have specified which values ought to be synthetic, and which method to use to create the synthetic values, we can actually create the synthetic data.</p>
-<hr>
-<p><strong>7. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_param</code>, using the previously specified <code>parametric</code> method-vector and <code>where</code>-matrix.</strong></p>
-<hr>
-<p><em>Hint:</em> When creating synthetic data, a single iteration is sufficient when there is no missing data, so we can set <code>maxit = 1</code>. Use <code>seed = 1</code> if you want to reproduce our results.</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<p><em>Hint:</em> Use <code>seed = 1</code> if you want to reproduce our results.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Show code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -928,41 +921,7 @@ Show code
 <div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>syn_param <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">m =</span> <span class="dv">1</span>, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">maxit =</span> <span class="dv">1</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> parametric,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">where =</span> where,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">seed =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-<hr>
-<p>We will directly create a synthetic data set using the non-parametric CART synthesis model.</p>
-<hr>
-<p><strong>8. Use <code>mice()</code> to create <code>m = 1</code> synthetic data set in an object called <code>syn_nonparam</code>, using the <code>nonparametric</code> method object and the same <code>where</code>-matrix.</strong></p>
-<hr>
-<p><em>Hint:</em> A single iteration is again sufficient. Use <code>seed = 1</code> if you want to reproduce our results.</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Show code
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>syn_nonparam <span class="ot">&lt;-</span> <span class="fu">mice</span>(heart_failure, </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">m =</span> <span class="dv">1</span>, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">maxit =</span> <span class="dv">1</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> nonparametric,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">where =</span> where,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">seed =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>syn_nonparam <span class="ot">&lt;-</span> <span class="fu">syn</span>(heart_failure, <span class="at">method =</span> <span class="st">"cart"</span>, <span class="at">seed =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -976,104 +935,95 @@ Show code
 <section id="session-info" class="level1">
 <h1>Session Info</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.2 (2022-10-31 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
+
 
 locale:
 [1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
 [3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
 [5] LC_TIME=Dutch_Netherlands.utf8    
 
+time zone: Europe/Amsterdam
+tzcode source: internal
+
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] synthpop_1.8-0    forcats_0.5.2     stringr_1.5.0     dplyr_1.0.10     
- [5] readr_2.1.3       tidyr_1.2.1       tibble_3.1.8      tidyverse_1.3.2  
- [9] purrr_0.3.5       psych_2.2.9       patchwork_1.1.2   ggplot2_3.4.0    
-[13] ggmice_0.0.1.9000 mice_3.14.14     
+ [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
+ [5] readr_2.1.5     tidyr_1.3.0     tibble_3.2.1    tidyverse_2.0.0
+ [9] purrr_1.0.2     psych_2.3.9     patchwork_1.2.0 ggplot2_3.5.1  
+[13] synthpop_1.8-0 
 
 loaded via a namespace (and not attached):
-  [1] TH.data_1.1-1        googledrive_2.0.0    colorspace_2.0-3    
-  [4] ellipsis_0.3.2       class_7.3-20         modeltools_0.2-23   
-  [7] mipfp_3.2.1          fs_1.5.2             rmutil_1.1.10       
- [10] rstudioapi_0.14      proxy_0.4-27         fansi_1.0.3         
- [13] mvtnorm_1.1-3        lubridate_1.8.0      coin_1.4-2          
- [16] ranger_0.14.1        xml2_1.3.3           codetools_0.2-18    
- [19] splines_4.2.2        mnormt_2.1.1         libcoin_1.0-9       
- [22] knitr_1.40           jsonlite_1.8.3       broom_1.0.3         
- [25] dbplyr_2.2.1         compiler_4.2.2       httr_1.4.4          
- [28] backports_1.4.1      assertthat_0.2.1     Matrix_1.5-3        
- [31] fastmap_1.1.0        gargle_1.2.1         strucchange_1.5-3   
- [34] cli_3.4.1            htmltools_0.5.4      tools_4.2.2         
- [37] gtable_0.3.1         glue_1.6.2           broman_0.80         
- [40] Rcpp_1.0.9           cellranger_1.1.0     vctrs_0.5.0         
- [43] svglite_2.1.0        nlme_3.1-160         xfun_0.34           
- [46] proto_1.0.0          rvest_1.0.3          lifecycle_1.0.3     
- [49] cmm_0.12             googlesheets4_1.0.1  polspline_1.1.20    
- [52] MASS_7.3-58.1        zoo_1.8-11           scales_1.2.1        
- [55] hms_1.1.2            parallel_4.2.2       sandwich_3.0-2      
- [58] yaml_2.3.6           rpart_4.1.19         stringi_1.7.8       
- [61] highr_0.9            randomForest_4.7-1.1 e1071_1.7-12        
- [64] truncnorm_1.0-8      rlang_1.0.6          pkgconfig_2.0.3     
- [67] systemfonts_1.0.4    matrixStats_0.62.0   Rsolnp_1.16         
- [70] evaluate_0.17        lattice_0.20-45      htmlwidgets_1.6.1   
- [73] tidyselect_1.2.0     plyr_1.8.7           magrittr_2.0.3      
- [76] R6_2.5.1             generics_0.1.3       multcomp_1.4-20     
- [79] DBI_1.1.3            pillar_1.8.1         haven_2.5.1         
- [82] foreign_0.8-83       withr_2.5.0          survival_3.4-0      
- [85] nnet_7.3-18          modelr_0.1.9         crayon_1.5.2        
- [88] KernSmooth_2.23-20   utf8_1.2.2           party_1.3-11        
- [91] tzdb_0.3.0           rmarkdown_2.17       grid_4.2.2          
- [94] readxl_1.4.1         reprex_2.0.2         digest_0.6.30       
- [97] classInt_0.4-8       webshot_0.5.4        numDeriv_2016.8-1.1 
-[100] stats4_4.2.2         munsell_0.5.0        viridisLite_0.4.1   
-[103] kableExtra_1.3.4    </code></pre>
+ [1] tidyselect_1.2.1     viridisLite_0.4.2    libcoin_1.0-10      
+ [4] fastmap_1.2.0        TH.data_1.1-2        digest_0.6.33       
+ [7] rpart_4.1.23         timechange_0.2.0     lifecycle_1.0.4     
+[10] survival_3.6-4       Rsolnp_1.16          magrittr_2.0.3      
+[13] compiler_4.4.1       rlang_1.1.2          tools_4.4.1         
+[16] utf8_1.2.4           yaml_2.3.10          knitr_1.45          
+[19] htmlwidgets_1.6.4    classInt_0.4-10      mnormt_2.1.1        
+[22] plyr_1.8.9           xml2_1.3.6           multcomp_1.4-25     
+[25] KernSmooth_2.23-24   polspline_1.1.24     party_1.3-14        
+[28] foreign_0.8-86       withr_3.0.1          numDeriv_2016.8-1.1 
+[31] nnet_7.3-19          grid_4.4.1           mipfp_3.2.1         
+[34] stats4_4.4.1         fansi_1.0.6          broman_0.80         
+[37] e1071_1.7-14         colorspace_2.1-1     scales_1.3.0        
+[40] MASS_7.3-60.2        cli_3.6.2            mvtnorm_1.2-4       
+[43] rmarkdown_2.25       generics_0.1.3       rstudioapi_0.16.0   
+[46] tzdb_0.4.0           proxy_0.4-27         modeltools_0.2-23   
+[49] splines_4.4.1        parallel_4.4.1       matrixStats_1.2.0   
+[52] vctrs_0.6.5          Matrix_1.7-0         sandwich_3.1-0      
+[55] jsonlite_1.8.9       hms_1.1.3            rmutil_1.1.10       
+[58] cmm_1.0              systemfonts_1.0.5    proto_1.0.0         
+[61] glue_1.6.2           codetools_0.2-20     stringi_1.8.3       
+[64] strucchange_1.5-3    gtable_0.3.5         munsell_0.5.1       
+[67] pillar_1.9.0         htmltools_0.5.7      randomForest_4.7-1.1
+[70] truncnorm_1.0-9      R6_2.5.1             evaluate_0.23       
+[73] kableExtra_1.4.0     lattice_0.22-6       highr_0.10          
+[76] class_7.3-22         Rcpp_1.0.12          nlme_3.1-164        
+[79] svglite_2.1.3        ranger_0.16.0        coin_1.4-3          
+[82] xfun_0.41            zoo_1.8-12           pkgconfig_2.0.3     </code></pre>
 </div>
 </div>
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-tanvir_heart_failure_2017" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-tanvir_heart_failure_2017" class="csl-entry" role="listitem">
 Ahmad, Tanvir, Assia Munir, Sajjad Haider Bhatti, Muhammad Aftab, and Muhammad Ali Raza. 2017. <span>“Survival Analysis of Heart Failure Patients: A Case Study.”</span> <em>PLOS ONE</em> 12 (7): 1–8. <a href="https://doi.org/10.1371/journal.pone.0181001">https://doi.org/10.1371/journal.pone.0181001</a>.
 </div>
-<div id="ref-breiman_cart_1984" class="csl-entry" role="doc-biblioentry">
+<div id="ref-breiman_cart_1984" class="csl-entry" role="listitem">
 Breiman, Leo, Jerome Friedman, Charles J Stone, and Richard A Olshen. 1984. <em>Classification and Regression Trees</em>. New York: CRC press. <a href="https://doi.org/10.1201/9781315139470">https://doi.org/10.1201/9781315139470</a>.
 </div>
-<div id="ref-chicco_ml_2020" class="csl-entry" role="doc-biblioentry">
+<div id="ref-chicco_ml_2020" class="csl-entry" role="listitem">
 Chicco, Davide, and Giuseppe Jurman. 2020. <span>“Machine Learning Can Predict Survival of Patients with Heart Failure from Serum Creatinine and Ejection Fraction Alone.”</span> <em>BMC Medical Informatics and Decision Making</em> 20 (1): 16. <a href="https://doi.org/10.1186/s12911-020-1023-5">https://doi.org/10.1186/s12911-020-1023-5</a>.
 </div>
-<div id="ref-purrr" class="csl-entry" role="doc-biblioentry">
+<div id="ref-purrr" class="csl-entry" role="listitem">
 Henry, Lionel, and Hadley Wickham. 2022. <em>Purrr: Functional Programming Tools</em>. <a href="https://CRAN.R-project.org/package=purrr">https://CRAN.R-project.org/package=purrr</a>.
 </div>
-<div id="ref-iveware" class="csl-entry" role="doc-biblioentry">
+<div id="ref-iveware" class="csl-entry" role="listitem">
 <span>“<span>IVE</span>ware: Imputation and Variance Estimation Software.”</span> n.d. <a href="https://www.src.isr.umich.edu/wp-content/uploads/iveware-manual-Version-0.3.pdf">https://www.src.isr.umich.edu/wp-content/uploads/iveware-manual-Version-0.3.pdf</a>.
 </div>
-<div id="ref-synthpop" class="csl-entry" role="doc-biblioentry">
+<div id="ref-synthpop" class="csl-entry" role="listitem">
 Nowok, Beata, Gillian M. Raab, and Chris Dibben. 2016. <span>“<span class="nocase">synthpop</span>: Bespoke Creation of Synthetic Data in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 74 (11): 1–26. <a href="https://doi.org/10.18637/jss.v074.i11">https://doi.org/10.18637/jss.v074.i11</a>.
 </div>
-<div id="ref-ggmice" class="csl-entry" role="doc-biblioentry">
-Oberman, Hanne. 2022. <em>Ggmice: Visualizations for ’Mice’ with ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=ggmice">https://CRAN.R-project.org/package=ggmice</a>.
-</div>
-<div id="ref-patchwork" class="csl-entry" role="doc-biblioentry">
+<div id="ref-patchwork" class="csl-entry" role="listitem">
 Pedersen, Thomas Lin. 2022. <em>Patchwork: The Composer of Plots</em>. <a href="https://CRAN.R-project.org/package=patchwork">https://CRAN.R-project.org/package=patchwork</a>.
 </div>
-<div id="ref-psych" class="csl-entry" role="doc-biblioentry">
+<div id="ref-psych" class="csl-entry" role="listitem">
 Revelle, William. 2022. <em>Psych: Procedures for Psychological, Psychometric, and Personality Research</em>. Evanston, Illinois: Northwestern University. <a href="https://CRAN.R-project.org/package=psych">https://CRAN.R-project.org/package=psych</a>.
 </div>
-<div id="ref-mice" class="csl-entry" role="doc-biblioentry">
+<div id="ref-mice" class="csl-entry" role="listitem">
 van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“<span class="nocase">mice</span>: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="https://doi.org/10.18637/jss.v045.i03">https://doi.org/10.18637/jss.v045.i03</a>.
 </div>
-<div id="ref-volker_vink_synthetic_mice_2021" class="csl-entry" role="doc-biblioentry">
-Volker, Thom Benjamin, and Gerko Vink. 2021. <span>“Anonymiced Shareable Data: Using Mice to Create and Analyze Multiply Imputed Synthetic Datasets.”</span> <em>Psych</em> 3 (4): 703–16. <a href="https://doi.org/10.3390/psych3040045">https://doi.org/10.3390/psych3040045</a>.
-</div>
-<div id="ref-ggplot2" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ggplot2" class="csl-entry" role="listitem">
 Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
 </div>
 </div></section></div></main>
@@ -1105,12 +1055,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
     }
-  });
-  clipboard.on('success', function(e) {
+    return false;
+  }
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1142,11 +1095,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1156,8 +1148,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1169,9 +1170,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1212,6 +1449,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
