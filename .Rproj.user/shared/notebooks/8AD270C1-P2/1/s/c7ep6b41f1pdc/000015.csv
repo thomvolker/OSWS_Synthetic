@@ -1,0 +1,12 @@
+"0","compare.fit.synds(fit_nonparam, heart_failure)
+"
+"1","
+Call used to fit models to the data:
+"
+"1","glm.synds(formula = deceased ~ age + diabetes + smoking + follow_up, 
+"
+"1","    family = binomial, data = syn_nonparam)
+"
+"1","
+Differences between results based on synthetic and observed data:
+"

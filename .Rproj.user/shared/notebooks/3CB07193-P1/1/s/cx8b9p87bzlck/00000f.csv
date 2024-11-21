@@ -1,0 +1,6 @@
+"0","library(synthpop)  # to assess the utility of our synthetic data"
+"0","library(ggplot2)   # required when using ggmice"
+"0","library(patchwork) # to stitch multiple figures together"
+"0","library(psych)     # to obtain descriptive statistics"
+"0","library(purrr)     # to work with multiply imputed synthetic datasets"
+"0","library(tidyverse) # to do some data wrangling"

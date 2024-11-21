@@ -1,0 +1,31 @@
+"0","utility.gen(syn_nonparam, 
+            heart_failure, 
+            method = ""logit"", 
+            vars = ""creatinine_phosphokinase"",
+            maxorder = 0)
+"
+"1","
+Utility score calculated by method: "
+"1",""
+"1","logit"
+"1",""
+"1","
+"
+"1","
+Call:
+"
+"1","utility.gen.synds(object = syn_nonparam, data = heart_failure, 
+"
+"1","    method = ""logit"", maxorder = 0, vars = ""creatinine_phosphokinase"")
+"
+"1","
+Selected utility measures
+"
+"1","    pMSE "
+"1","  S_pMSE "
+"1","
+"
+"1","0.000070 "
+"1","0.334188 "
+"1","
+"
